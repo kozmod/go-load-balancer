@@ -11,6 +11,8 @@ import (
 	"time"
 )
 
+const healthCheckDuration = 2 * time.Minute
+
 var serverPool server.Pool
 
 func main() {
@@ -70,7 +72,7 @@ func lb(w http.ResponseWriter, r *http.Request) {
 
 // healthCheck runs a routine for check status of the servers every 2 mins
 func healthCheck() {
-	t := time.NewTicker(time.Minute * 2)
+	t := time.NewTicker(healthCheckDuration)
 	for {
 		select {
 		case <-t.C:
